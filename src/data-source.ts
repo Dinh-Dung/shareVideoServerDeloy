@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: "share_video_sxs1",
+  database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
   entities: [Category, Comment, Follow, Like, Report, Users, Video],
