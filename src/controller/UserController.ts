@@ -234,7 +234,7 @@ export class UserController {
     } catch (error) {
       return response.status(400).json({
         data: null,
-        error: "Faild to get random users",
+        error: "Can't get random users",
       });
     }
   }
