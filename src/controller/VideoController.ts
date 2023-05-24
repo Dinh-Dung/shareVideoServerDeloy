@@ -214,6 +214,7 @@ export class VideoController {
         .createQueryBuilder("video")
         .leftJoinAndSelect("video.user", "user")
         .where(`user.id IN (:...userIds)`, { userIds })
+        .andWhere("video.status = :status", { status: VideoStatus.Public })
         .getMany();
 
       return response.status(200).json({
