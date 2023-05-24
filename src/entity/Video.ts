@@ -12,6 +12,7 @@ import {
 import { Comment } from "./Comment";
 import { Users } from "./User";
 import { Category } from "./Category";
+import { Like } from "./Like";
 
 export enum VideoStatus {
   Pending = "pending",
@@ -51,6 +52,9 @@ export class Video {
 
   @OneToMany(() => Comment, (comment) => comment.video)
   comment: Comment[];
+
+  @OneToMany(() => Like, (like) => like.video)
+  likes: Like[];
 
   @ManyToMany(() => Category, (category) => category.video)
   @JoinTable()

@@ -17,7 +17,7 @@ export class Like {
   @CreateDateColumn()
   create_at: Date;
 
-  @ManyToOne(() => Video, (video) => video.comment)
+  @ManyToOne(() => Video, (video) => video.like, { cascade: true })
   video: Video;
 
   @ManyToOne(() => Users, (user) => user.like)

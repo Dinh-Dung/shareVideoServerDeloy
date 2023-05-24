@@ -5,6 +5,7 @@ import { AppDataSource } from "../data-source";
 import { Users } from "../entity/User";
 import { Category } from "../entity/Category";
 import { Follow } from "../entity/Follow";
+import { Like } from "../entity/Like";
 
 // Configuration
 cloudinary.config({
@@ -24,7 +25,8 @@ export class VideoController {
     private videoRepository = AppDataSource.getRepository(Video),
     private userRepository = AppDataSource.getRepository(Users),
     private categoryRepository = AppDataSource.getRepository(Category),
-    private followRepository = AppDataSource.getRepository(Follow)
+    private followRepository = AppDataSource.getRepository(Follow),
+    private likeRepository = AppDataSource.getRepository(Like)
   ) {
     this.uploadVideo = this.uploadVideo.bind(this);
     this.getVideoList = this.getVideoList.bind(this);
@@ -229,8 +231,14 @@ export class VideoController {
     try {
       const video = await this.videoRepository.findOne({
         where: { id: videoId },
+        relations: ["likes"],
       });
+      console.log(video);
       if (video) {
+        await Promise.all(
+          video.likes.map((like) => this.likeRepository.remove(like))
+        );
+
         await this.videoRepository.remove(video);
         console.log("delete video successfully");
       } else {
