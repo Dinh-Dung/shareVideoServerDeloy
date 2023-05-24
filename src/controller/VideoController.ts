@@ -208,12 +208,14 @@ export class VideoController {
         .leftJoinAndSelect("follow.tiktoker", "user")
         .where("follow.me.id = :userId", { userId })
         .getMany();
-      const followedUserIds = videoFollower.map((follow) => follow.tiktoker.id);
+
+      const userIds = videoFollower.map((follow) => follow.tiktoker.id);
       const videos = await this.videoRepository
         .createQueryBuilder("video")
         .leftJoinAndSelect("video.user", "user")
-        .whereInIds(followedUserIds)
+        .where("user.id IN (:...userIds)", { userIds })
         .getMany();
+
       return response.status(200).json({
         data: videos,
         error: null,
