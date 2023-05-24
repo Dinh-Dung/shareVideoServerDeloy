@@ -86,6 +86,11 @@ router.post(
   AuthGuard,
   videoController.acceptPrivateVideo
 );
+router.get(
+  "/video/getPublicVideos/:userId",
+  AuthGuard,
+  videoController.getPublicVideos
+);
 // like
 router.post("/like/likeVideo", AuthGuard, likeController.likeVideo);
 router.post("/like/unlike", AuthGuard, likeController.unlikeVideo);

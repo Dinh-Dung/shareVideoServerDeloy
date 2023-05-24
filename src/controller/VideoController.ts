@@ -266,6 +266,32 @@ export class VideoController {
       });
     }
   }
+  async getPublicVideos(
+    request: Request & { file: any },
+    response: Response,
+    next: NextFunction
+  ) {
+    const userId = Number(request.params.userId);
+    try {
+      const list = await this.videoRepository.find({
+        relations: ["user"],
+        where: {
+          status: VideoStatus.Public,
+          user: { id: userId },
+        },
+      });
+      const shuffledList = list.sort(() => Math.random() - 0.5);
+      return response.status(200).json({
+        data: shuffledList,
+        error: null,
+      });
+    } catch (error) {
+      return response.status(400).json({
+        data: null,
+        error: "get public videos failed",
+      });
+    }
+  }
   async acceptVideoAtClient(
     request: Request & { file: any },
     response: Response,
