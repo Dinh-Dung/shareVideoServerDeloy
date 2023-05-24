@@ -213,7 +213,7 @@ export class VideoController {
       const videos = await this.videoRepository
         .createQueryBuilder("video")
         .leftJoinAndSelect("video.user", "user")
-        .where("user.id IN (:...userIds)", { userIds })
+        .where(`user.id IN (:...userIds)`, { userIds })
         .getMany();
 
       return response.status(200).json({
